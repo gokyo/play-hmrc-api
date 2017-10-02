@@ -17,13 +17,15 @@
 package uk.gov.hmrc.api.connector
 
 import org.mockito.Mockito._
+import org.mockito.Matchers.any
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.mock.MockitoSugar
+import play.api.libs.json.{Reads, Writes}
 import uk.gov.hmrc.api.domain.Registration
-import uk.gov.hmrc.play.http.{HeaderCarrier, HttpPost, HttpResponse}
 import uk.gov.hmrc.play.test.UnitSpec
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
+import uk.gov.hmrc.http.{HeaderCarrier, HttpPost, HttpResponse}
 
 class ServiceLocatorConnectorSpec
     extends UnitSpec with MockitoSugar with ScalaFutures {
@@ -54,7 +56,7 @@ class ServiceLocatorConnectorSpec
 
       when(connector.http.POST(s"${connector.serviceUrl}/registration",
                                registration,
-                               Seq("Content-Type" -> "application/json")))
+                               Seq("Content-Type" -> "application/json"))(implicitly[Writes[Registration]], implicitly[Reads[HttpResponse]], any[ExecutionContext]))
         .thenReturn(Future.successful(HttpResponse(200)))
 
       connector.register.futureValue shouldBe true

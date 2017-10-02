@@ -17,12 +17,12 @@
 package uk.gov.hmrc.api.service
 
 import uk.gov.hmrc.play.config.AppName
+import uk.gov.hmrc.http.HeaderCarrier
 
 trait Auditor extends AppName {
 
   import uk.gov.hmrc.play.audit.http.connector.AuditConnector
   import uk.gov.hmrc.play.audit.model.DataEvent
-  import uk.gov.hmrc.play.http.HeaderCarrier
 
   import scala.concurrent.{ExecutionContext, Future}
 
